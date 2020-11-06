@@ -291,32 +291,32 @@ void Estimator::SetupRos(ros::NodeHandle &nh) {
   MeasurementManager::SetupRos(nh);
   PointMapping::SetupRos(nh, false);
 
-  wi_trans_.frame_id_ = "/camera_init";
-  wi_trans_.child_frame_id_ = "/world";
+  wi_trans_.frame_id_ = "camera_init";
+  wi_trans_.child_frame_id_ = "world";
 
   wi_trans_.setRotation(tf::Quaternion(0, 0, 0, 1));
   wi_trans_.setOrigin(tf::Vector3(0, 0, 0));
 
-  laser_local_trans_.frame_id_ = "/world";
-  laser_local_trans_.child_frame_id_ = "/laser_local";
+  laser_local_trans_.frame_id_ = "world";
+  laser_local_trans_.child_frame_id_ = "laser_local";
 
   laser_local_trans_.setRotation(tf::Quaternion(0, 0, 0, 1));
   laser_local_trans_.setOrigin(tf::Vector3(0, 0, 0));
 
-  laser_predict_trans_.frame_id_ = "/laser_local";
-  laser_predict_trans_.child_frame_id_ = "/laser_predict";
+  laser_predict_trans_.frame_id_ = "laser_local";
+  laser_predict_trans_.child_frame_id_ = "laser_predict";
   laser_predict_trans_.setIdentity();
 
-  predict_odom_.header.frame_id = "/world";
-  predict_odom_.child_frame_id = "/imu_predict";
+  predict_odom_.header.frame_id = "world";
+  predict_odom_.child_frame_id = "imu_predict";
   pub_predict_odom_ = nh.advertise<nav_msgs::Odometry>("/predict_odom", 100);
 
-  laser_odom_.header.frame_id = "/world";
-  laser_odom_.child_frame_id = "/laser_predict";
+  laser_odom_.header.frame_id = "world";
+  laser_odom_.child_frame_id = "laser_predict";
   pub_laser_odom_ = nh.advertise<nav_msgs::Odometry>("/predict_laser_odom", 100);
 
-  local_odom_.header.frame_id = "/world";
-  local_odom_.child_frame_id = "/laser_predict";
+  local_odom_.header.frame_id = "world";
+  local_odom_.child_frame_id = "laser_predict";
   pub_local_odom_ = nh.advertise<nav_msgs::Odometry>("/local_laser_odom", 100);
 
   pub_plane_normal_ = nh.advertise<visualization_msgs::MarkerArray>("/debug/plane_normal", 5);

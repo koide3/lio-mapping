@@ -113,7 +113,7 @@ void CoeffsToVisualizationMsgs(const multimap<float, pair<PointT, PointT>, great
 
   visualization_msgs::Marker marker;
   {
-    marker.header.frame_id = "/camera_init";
+    marker.header.frame_id = "camera_init";
     marker.id = 0;
     marker.pose.position.x = 0;
     marker.pose.position.y = 0;

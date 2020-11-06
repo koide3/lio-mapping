@@ -112,7 +112,7 @@ struct PointProcessorConfig {
   int max_surf_flat = 4;
   float less_flat_filter_size = 0.2;
 
-  string capture_frame_id = "/map";
+  string capture_frame_id = "map";
 
   double rad_diff = 0.2;
 

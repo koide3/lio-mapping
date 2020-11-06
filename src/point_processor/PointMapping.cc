@@ -93,11 +93,11 @@ PointMapping::PointMapping(float scan_period,
       laser_cloud_corner_from_map_(new PointCloud()),
       laser_cloud_surf_from_map_(new PointCloud()) {
   // initialize mapping odometry and odometry tf messages
-  odom_aft_mapped_.header.frame_id = "/camera_init";
-  odom_aft_mapped_.child_frame_id = "/aft_mapped";
+  odom_aft_mapped_.header.frame_id = "camera_init";
+  odom_aft_mapped_.child_frame_id = "aft_mapped";
 
-  aft_mapped_trans_.frame_id_ = "/camera_init";
-  aft_mapped_trans_.child_frame_id_ = "/aft_mapped";
+  aft_mapped_trans_.frame_id_ = "camera_init";
+  aft_mapped_trans_.child_frame_id_ = "aft_mapped";
 
   // initialize frame counter
   frame_count_ = num_stack_frames_ - 1;

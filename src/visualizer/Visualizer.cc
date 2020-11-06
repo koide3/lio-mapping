@@ -45,7 +45,7 @@ Visualizer::Visualizer(std::string vis_name,
 //  un_imu_pub_ = nh_.advertise<sensor_msgs::Imu>("/un_imu/data", 10);
 //  vel_pub_ = nh_.advertise<geometry_msgs::TwistStamped>("/twist_test", 10);
 
-  imu_marker_.header.frame_id = "/world";
+  imu_marker_.header.frame_id = "world";
   imu_marker_.header.stamp = ros::Time();
   imu_marker_.ns = "imu_marker";
   imu_marker_.type = visualization_msgs::Marker::ARROW;
@@ -65,7 +65,7 @@ Visualizer::Visualizer(std::string vis_name,
   imu_marker_.color.g = imu_color[1];
   imu_marker_.color.b = imu_color[2];
 
-  lidar_marker_.header.frame_id = "/world";
+  lidar_marker_.header.frame_id = "world";
   lidar_marker_.header.stamp = ros::Time();
   lidar_marker_.ns = "lidar_markers";
   lidar_marker_.type = visualization_msgs::Marker::ARROW;
@@ -85,7 +85,7 @@ Visualizer::Visualizer(std::string vis_name,
   lidar_marker_.color.g = lidar_color[1];
   lidar_marker_.color.b = lidar_color[2];
 
-  velocity_marker_.header.frame_id = "/world";
+  velocity_marker_.header.frame_id = "world";
   velocity_marker_.header.stamp = ros::Time();
   velocity_marker_.ns = "velocity_marker";
   velocity_marker_.type = visualization_msgs::Marker::TEXT_VIEW_FACING;

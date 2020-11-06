@@ -87,18 +87,18 @@ PointOdometry::PointOdometry(float scan_period, int io_ratio, size_t num_max_ite
 
   // adapted from LOAM
   // initialize odometry and odometry tf messages
-  laser_odometry_msg_.header.frame_id = "/camera_init";
-  laser_odometry_msg_.child_frame_id = "/laser_odom";
+  laser_odometry_msg_.header.frame_id = "camera_init";
+  laser_odometry_msg_.child_frame_id = "laser_odom";
 
-  laser_odometry_trans_.frame_id_ = "/camera_init";
-  // laser_odometry_trans_.child_frame_id_ = "/laser_odom";
-  laser_odometry_trans_.child_frame_id_ = "/camera";
+  laser_odometry_trans_.frame_id_ = "camera_init";
+  // laser_odometry_trans_.child_frame_id_ = "laser_odom";
+  laser_odometry_trans_.child_frame_id_ = "camera";
 
-//  laser_odometry_msg_.header.frame_id = "/map";
-//  laser_odometry_msg_.child_frame_id = "/laser_odom";
+//  laser_odometry_msg_.header.frame_id = "map";
+//  laser_odometry_msg_.child_frame_id = "laser_odom";
 //
-//  laser_odometry_trans_.frame_id_ = "/map";
-//  laser_odometry_trans_.child_frame_id_ = "/laser_odom";
+//  laser_odometry_trans_.frame_id_ = "map";
+//  laser_odometry_trans_.child_frame_id_ = "laser_odom";
 }
 
 void PointOdometry::SetupRos(ros::NodeHandle &nh) {
