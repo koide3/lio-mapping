@@ -35,3 +35,6 @@ cd lio_mapping/docker
 
 roslaunch lio test_indoor.launch & roslaunch lio map_4D_indoor.launch
 ```
+
+![lio_mapping](https://user-images.githubusercontent.com/31344317/98347868-5a0f5880-205b-11eb-8acf-97d28038129e.gif)
+
