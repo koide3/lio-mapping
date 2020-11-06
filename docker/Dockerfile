@@ -1,51 +1,37 @@
-FROM osrf/ros:melodic-desktop-full
+FROM ros:melodic
 
-ARG your_name
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+ && apt-get install -y --no-install-recommends wget nano unzip build-essential libomp-dev python3-pip \
+                                               libmetis-dev ros-melodic-cv-bridge ros-melodic-pcl-ros ros-melodic-image-transport \
+ && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# see: https://gitlab.com/nvidia/opengl/tree/ubuntu18.04
+# WORKDIR /root
+# RUN wget -O gtsam.zip https://github.com/borglab/gtsam/archive/4.0.0-alpha2.zip
+# RUN unzip gtsam.zip
+# RUN mkdir /root/gtsam-4.0.0-alpha2/build
+# WORKDIR /root/gtsam-4.0.0-alpha2/build
+# RUN cmake .. && make -j4 2> /dev/null
+# RUN make install
 
-RUN dpkg --add-architecture i386 && \
-    apt-get update && apt-get install -y --no-install-recommends \
-        libxau6 libxau6:i386 \
-        libxdmcp6 libxdmcp6:i386 \
-        libxcb1 libxcb1:i386 \
-        libxext6 libxext6:i386 \
-        libx11-6 libx11-6:i386 && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends libceres-dev ros-melodic-tf-conversions
 
-# nvidia-container-runtime
-ENV NVIDIA_VISIBLE_DEVICES \
-        ${NVIDIA_VISIBLE_DEVICES:-all}
-ENV NVIDIA_DRIVER_CAPABILITIES \
-        ${NVIDIA_DRIVER_CAPABILITIES:+$NVIDIA_DRIVER_CAPABILITIES,}graphics,compat32,utility
+RUN mkdir -p /root/catkin_ws/src
+WORKDIR /root/catkin_ws/src
+RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_init_workspace'
 
-RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
-    echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
+RUN sed -i '9c #include "lz4.h"' /usr/include/flann/util/serialization.h
+RUN sed -i '10c #include "lz4hc.h"' /usr/include/flann/util/serialization.h
 
-# Required for non-glvnd setups.
-ENV LD_LIBRARY_PATH /usr/lib/x86_64-linux-gnu:/usr/lib/i386-linux-gnu${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+# RUN git clone https://github.com/hyye/lio-mapping
+COPY . /root/catkin_ws/src/lio-mapping/
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        libglvnd0 libglvnd0:i386 \
-    libgl1 libgl1:i386 \
-    libglx0 libglx0:i386 \
-    libegl1 libegl1:i386 \
-    libgles2 libgles2:i386 && \
-    rm -rf /var/lib/apt/lists/*
+WORKDIR /root/catkin_ws
+RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; catkin_make -DCMAKE_BUILD_TYPE=Release'
 
-COPY --from=nvidia/opengl:1.0-glvnd-runtime-ubuntu18.04 \
-    /usr/share/glvnd/egl_vendor.d/10_nvidia.json \
-    /usr/share/glvnd/egl_vendor.d/10_nvidia.json
+RUN sed -i "6i source \"/root/catkin_ws/devel/setup.bash\"" /ros_entrypoint.sh
 
-# Prerequisites
-# ENV USER=$your_name
-RUN adduser $your_name
-RUN curl http://ceres-solver.org/ceres-solver-1.14.0.tar.gz --output ceres-solver-1.14.0.tar.gz
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgoogle-glog-dev libatlas-base-dev libeigen3-dev libsuitesparse-dev
-RUN tar zxf ceres-solver-1.14.0.tar.gz && mkdir ceres-bin && cd ceres-bin && cmake ../ceres-solver-1.14.0 && make -j3 && make install
-# USER $yourname
-# RUN mkdir -p /workspace && chmod -R 777 /workspace
-# COPY --chown=1000:1000 . /workspace/src/
-COPY . /workspace/src/
-RUN /bin/bash -c "source /opt/ros/melodic/setup.bash && cd /workspace && catkin_make -DCMAKE_BUILD_TYPE=Release"
+WORKDIR /
+
+ENTRYPOINT ["/ros_entrypoint.sh"]
+CMD ["bash"]
