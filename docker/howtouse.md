@@ -11,7 +11,7 @@ cd lio_mapping/docker
 
 ## Run
 
-On the host:
+### On host:
 ```bash
 roscore
 ```
@@ -28,7 +28,7 @@ rosbag play --clock slow2.bag
 slow2.bag: https://drive.google.com/drive/folders/1dPy667dAnJy9wgXmlnRgQZxQF_ESuve3
 
 
-On the docker image:
+### On docker image:
 ```bash
 cd lio_mapping/docker
 ./run.sh
