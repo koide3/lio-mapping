@@ -1,0 +1,16 @@
+<!-- -*- mode: XML -*- -->
+
+<launch>
+  <node pkg="topic_tools" type="relay" name="points_relay" args="/os1_cloud_node/points /velodyne_points" />
+  <node pkg="topic_tools" type="relay" name="imu_relay" args="/os1_cloud_node/imu /imu/data" />
+
+
+  <node pkg="lio" type="lio_processor_node" name="lio_processor" output="log">
+    <param name="rad_diff" type="double" value="0.2" />
+  </node>
+ 
+  <node pkg="lio" type="lio_estimator_node" name="lio_estimator" output="screen">
+    <param name="config_file" type="string" value="$(find lio)/config/newer_college_config.yaml" />
+  </node>
+
+</launch>

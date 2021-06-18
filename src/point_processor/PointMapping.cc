@@ -1237,7 +1237,7 @@ void PointMapping::PublishResults() {
     PublishCloudMsg(pub_laser_cloud_surround_,
                     *laser_cloud_surround_downsampled_,
                     time_laser_odometry_,
-                    "/camera_init");
+                    "camera_init");
   }
 
 
@@ -1248,7 +1248,7 @@ void PointMapping::PublishResults() {
   }
 
   // publish transformed full resolution input cloud
-  PublishCloudMsg(pub_full_cloud_, *full_cloud_, time_laser_odometry_, "/camera_init");
+  PublishCloudMsg(pub_full_cloud_, *full_cloud_, time_laser_odometry_, "camera_init");
 
 
   // publish odometry after mapped transformations

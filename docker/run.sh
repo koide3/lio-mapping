@@ -1,4 +1,5 @@
 #!/bin/bash
 docker run --net=host -it --rm \
-            $@ \
-            lio_mapping
+           -v $(realpath ..):/root/catkin_ws/src/lio-mapping \
+           $@ \
+           lio_mapping
